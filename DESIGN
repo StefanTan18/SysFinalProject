@@ -1,0 +1,46 @@
+Stefan Tan, Dahong Jiang, Reed Scheinberg
+
+Final Project Proposal - Mafia
+
+Description of the Project
+For this project, we want to create a Mafia game. The following are the rules of the game:
+-There are two groups of players, the Mafia and the Innocent
+-Mafias are given identity of their members while the Innocent only receive the number of Mafia members(in our game it will be 
+ preset) and do not know the identity of any of the players
+-The game will consist of two phases: night and day. 
+-During the night, mafia players will be prompted to input their selected victim. The victim is decided on by majority vote, if
+ there is not a majority, it will proceed to a runoff vote until a winner is chosen.  The victim will die the next morning.
+-During the morning, players will vote on who to be removed from the game. If at least half of the votes favor removal, the 
+ player is removed. Otherwise, no person is removed.
+-The last group surviving will be the winner
+
+
+Description of User Interface
+The user interface will entirely take place in the terminal. Any action a user needs to take, as a member of the mafia or a 
+civilian, will be conducted by instructions through the terminal. The game will not progress without each user taking the 
+necessary action.  The terminal will allow players to chat, as well as conduct voting (choosing victims, and removing players 
+during the day).
+
+
+Description of the Technical Design
+Each game will have its own server. During setup, the user will input to the server the number of players. The server will then
+wait for players to connect or for the host to signal they want to start the game. Afterwards, once the game starts, the server
+will have a night and day function.  The night function will detect any user input. If it is a member of the mafia, it will 
+check the input to see if it is a chat message that will be sent to the other mafia members, or if it a vote for who to kill as
+the victim.  Once the night ends, the server will tally the votes and kill the victim if it a majority.  If there is no 
+majority, the server will run a special function for the players in input their selection as a runoff vote, and kills the 
+victim selected by that vote. The victim is moved to a spectate mode where they cannot chat, but can see who the mafia members 
+are and what they say at night. During the day, the server will run a similar process, instead checking for chat messages to 
+all members, or if a vote is being placed to remove a player.  If a player receives a majority vote against them, they will be 
+removed and placed into spectate mode. Both night and day processes will have timers, and will run checks in the beginning/end 
+to see if a side has won the game yet. The project will use the topics of: allocating memory, working with files, processes, 
+pipes, shared memory, semaphores, and networking.  The work will be divided by one person focusing on the user input and 
+information display, another focusing on the server functionality, and the other working on the transfer of information between
+the server and the users.
+
+
+Timeline 
+12/28 - Finish proposal.
+1/11 - Finish basic functionalities of mafia. 
+1/18 - Add finishing touches, emphasizing clarity in the user interface 
+- If there is time, add functioning AI
