@@ -11,9 +11,9 @@
   returns the file descriptor for the upstream pipe.
   =========================*/
 int server_handshake(int *to_client) {
-  int f;
+  int f;x
   while(1) {
-    printf("Server creating wkp...\n");
+    printf("Server is looking for players...\n");
     mkfifo("wkp", 0644);
 
     printf("Server receiving client's message...\n");
