@@ -16,12 +16,16 @@ int main() {
 
   while(1) {
     from_client = server_handshake( &to_client );
-    char data[BUFFER_SIZE];
-
+    char nightvote[BUFFER_SIZE]("It is night. Vote on your target");
+    char faction[BUFFER_SIZE];
+    char dayvote[BUFFER_SIZE];
+    
+    
     while(read(from_client, data, BUFFER_SIZE)) {
       printf("Subserver %d received: %s\n", getpid(), data);
-      strcat(data, " *hiccup");
+      strcpy(data, "");
       write(to_client, data, BUFFER_SIZE);
     }
+    
   }
 }
