@@ -13,19 +13,21 @@ int main() {
 
   int to_client;
   int from_client;
-
+  int LIMIT = 10;
+  int mafialimit = 2;
+  int curnorm = 0;
+  int curmafia = 0;
+  int day_night = 0;
+  
+  
   while(1) {
     from_client = server_handshake( &to_client );
-    char nightvote[BUFFER_SIZE]("It is night. Vote on your target");
-    char faction[BUFFER_SIZE];
-    char dayvote[BUFFER_SIZE];
     
     
-    while(read(from_client, data, BUFFER_SIZE)) {
-      printf("Subserver %d received: %s\n", getpid(), data);
-      strcpy(data, "");
+    
+    while(curmafia && read(from_client, data, BUFFER_SIZE)) {
+      printf("Server %d received: %s\n", getpid(), data);
       write(to_client, data, BUFFER_SIZE);
     }
-    
   }
 }
