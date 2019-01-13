@@ -21,9 +21,11 @@ Libraries:
 <stdio.h>
 <stdlib.h>
 <unistd.h>
-<fcntl.h>
 <sys/types.h>
-<sys/stat.h>
+<sys/socket.h>
+<netinet/in.h>
+<arpa/inet.h>
+<netdb.h>
 <string.h>
 <errno.h>
 
