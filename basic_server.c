@@ -111,14 +111,3 @@ void subserver(int client_socket) {
   close(client_socket);
   exit(0);
 }
-
-/*
-void process(char * s) {
-  while (*s) {
-    if (*s >= 'a' && *s <= 'z')
-      *s = ((*s - 'a') + 13) % 26 + 'a';
-    else  if (*s >= 'A' && *s <= 'Z')
-      *s = ((*s - 'a') + 13) % 26 + 'a';
-    s++;
-  }
-  }*/
