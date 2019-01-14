@@ -58,6 +58,7 @@ void subserver(int client_socket) {
     }
   }
 
+  //Game
   while (mafia_left && civil_left == 1) {
     read(client_socket, buffer, sizeof(buffer));
     curr_player = atoi(buffer);

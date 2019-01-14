@@ -18,11 +18,17 @@ int main() {
   //Setting up the Game
   int num_players = 0;
 
-  printf("Enter the number of players(6-10 players Only!): ");
-  fgets(buffer, sizeof(buffer), stdin);
-  num_players = atoi(buffer);
-  *strchr(buffer, '\n') = 0;
-  write(server_socket, buffer, sizeof(buffer));
+  char *host = malloc(2);
+  printf("Are you hosting or connecting? [y/n]: ");
+  fgets(host, 2, stdin);
+  
+  if(strcmp(host, "y") == 0) {
+    printf("Enter the number of players(6-10 players Only!): ");
+    fgets(buffer, sizeof(buffer), stdin);
+    num_players = atoi(buffer);
+    *strchr(buffer, '\n') = 0;
+    write(server_socket, buffer, sizeof(buffer));
+  }
 
   int notalive[num_players];//if players are alive
   int numDead = 0; //number of dead players
