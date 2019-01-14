@@ -1,4 +1,4 @@
-#include "pipe_networking.h"
+#include "networking.h"
 
 int getMajority(int vote[]) {
   int current = 0;
