@@ -1,8 +1,8 @@
 #include "pipe_networking.h"
 
-int getMajority(int vote[]) {
+int getMajority(int vote[], int size) {
   int current = 0;
-  for(int i = 0; i < num_players;i++){
+  for(int i = 0; i < size;i++){
     if(vote[i] > vote[current]){
       current = i;
       }
@@ -95,9 +95,9 @@ int main(int argc, char **argv) {
               execlp("clear", "clear", NULL);
               printf("All players can see this!\n");
               printf("The vote has concluded.\n");
-              printf("The majority has decided that Player_%d should be executed.\n", getMajority(votes));
-              printf("Player_%d has been executed.\n", getMajority(votes));
-              sprintf(buffer, "%d", getMajority(votes));
+              printf("The majority has decided that Player_%d should be executed.\n", getMajority(votes,num_players));
+              printf("Player_%d has been executed.\n", getMajority(votes,num_players));
+              sprintf(buffer, "%d", getMajority(votes,num_players));
               *strchr(buffer, '\n') = 0;
               write(server_socket, buffer, sizeof(buffer));
               read(server_socket, buffer, sizeof(buffer));
