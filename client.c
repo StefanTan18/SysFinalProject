@@ -10,15 +10,10 @@ int getMajority(int vote[], int size) {
   return current;
 }
 
-int main(int argc, char **argv) {
+int main() {
 
   int server_socket;
   char buffer[BUFFER_SIZE];
-
-  if (argc == 2)
-    server_socket = client_setup( argv[1]);
-  else
-    server_socket = client_setup( TEST_IP );
 
   //Setting up the Game
   int num_players = 0;
@@ -34,6 +29,14 @@ int main(int argc, char **argv) {
   int recently_killed = 0; //stores the most recent death
   int votes[num_players]; //store the votes
   int your_choice = 0; //placed into vote
+
+  //Connecting
+  char *ip = malloc(20);
+  printf("Please enter the ip address for the host server, or \"host\" to connect to a server on your machine: ");
+  fgets(ip, 20, stdin);
+  if(strcmp(ip, "host") == 0) server_socket = client_setup(TEST_IP);
+  else server_socket = client_setup(ip);
+
   //Receiving roles
   read(server_socket, buffer, sizeof(buffer));
   printf("%s\n", buffer);
