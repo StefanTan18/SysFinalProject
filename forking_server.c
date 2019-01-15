@@ -15,18 +15,18 @@ int main() {
     f = fork();
     if (f == 0) subserver(client_socket);
     else close(client_socket);
-  }
-  shmdt(num);  
+  } 
 }
 
 void subserver(int client_socket) {
   
   //incrementing shmem
-  int key = 99;
+  /* int key = 99;
   int shmid = shmget(key, sizeof(int), NULL);
   int *num =(int *) shmat(shmid, NULL, 0);
   *num = (*num) + 1;
   shmdt(num);    
+  */
   
   //int LIMIT = 10;
   int civil_left = 0;
@@ -71,7 +71,7 @@ void subserver(int client_socket) {
     curr_player = atoi(buffer);
     if (day_night == 0) {
       if (curr_player == mafia){
-        strcpy(buffer, "It's nighttime in the community. Time to eliminate a civilian!")
+        strcpy(buffer, "It's nighttime in the community. Time to eliminate a civilian!");
         write(client_socket, buffer, sizeof(buffer));
         read(client_socket, buffer, sizeof(buffer));
         recently_killed = atoi(buffer);
