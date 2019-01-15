@@ -27,7 +27,22 @@ int main() {
     fgets(buffer, sizeof(buffer), stdin);
     num_players = atoi(buffer);
     *strchr(buffer, '\n') = 0;
+    server_socket = client_setup(TEST_IP);
     write(server_socket, buffer, sizeof(buffer));
+    
+    //creating number of players to shmem for subservers to access
+    //subservers are supposed to increment this when they connect
+    int key = 99;
+    int shmid = shmget(key, sizeof(int), IPC_CREAT);
+    int *num =(int *) shmat(shmid, NULL, 0);
+    *num = 0;
+    shmdt(num);    
+  }
+  else {
+    char *ip = malloc(20);
+    printf("Please enter the ip address for the host server: ");
+    fgets(ip, 20, stdin);
+    server_socket = client_setup(ip);
   }
 
   int notalive[num_players];//if players are alive
@@ -35,13 +50,6 @@ int main() {
   int recently_killed = 0; //stores the most recent death
   int votes[num_players]; //store the votes
   int your_choice = 0; //placed into vote
-
-  //Connecting
-  char *ip = malloc(20);
-  printf("Please enter the ip address for the host server, or \"host\" to connect to a server on your machine: ");
-  fgets(ip, 20, stdin);
-  if(strcmp(ip, "host") == 0) server_socket = client_setup(TEST_IP);
-  else server_socket = client_setup(ip);
 
   //Receiving roles
   read(server_socket, buffer, sizeof(buffer));

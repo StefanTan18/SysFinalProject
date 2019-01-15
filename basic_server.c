@@ -8,19 +8,26 @@ int main() {
   int listen_socket;
   int f;
   listen_socket = server_setup();
-
+ 
   while (1) {
 
     int client_socket = server_connect(listen_socket);
     f = fork();
-    if (f == 0)
-      subserver(client_socket);
-    else
-      close(client_socket);
+    if (f == 0) subserver(client_socket);
+    else close(client_socket);
   }
+  shmdt(num);  
 }
 
 void subserver(int client_socket) {
+  
+  //incrementing shmem
+  int key = 99;
+  int shmid = shmget(key, sizeof(int), NULL);
+  int *num =(int *) shmat(shmid, NULL, 0);
+  *num = (*num) + 1;
+  shmdt(num);    
+  
   //int LIMIT = 10;
   int civil_left = 0;
   int mafia_left = 0;
