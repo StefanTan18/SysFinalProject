@@ -54,22 +54,22 @@ void subserver(int client_socket) {
   int i = 0;
   while(read(client_socket, buffer, sizeof(buffer)) && i < num_players) {
     if (i == mafia) {
-      strcpy(buffer, "You are a member of the mafia.\n Goal: Eliminate everyone else before they find out!\n");
+      strcpy(buffer, "You are a member of the mafia.\nGoal: Eliminate everyone else before they find out!\n");
       write(client_socket, buffer, sizeof(buffer));
       i++;
     }
     else {
-      strcpy(buffer, "You are a civilian.\n Goal: Work together with other civilians to get rid of the 1 mafia member hiding within your community!");
+      strcpy(buffer, "You are a civilian.\nGoal: Work together with other civilians to get rid of the 1 mafia member hiding within your community!");
       write(client_socket, buffer, sizeof(buffer));
       i++;
     }
   }
 
   //Game
-  while (mafia_left && civil_left == 1) {
+  while (mafia_left && civil_left != 1) {
     read(client_socket, buffer, sizeof(buffer));
     curr_player = atoi(buffer);
-    if (day_night == 0) {
+    if (!day_night) {
       if (curr_player == mafia){
         strcpy(buffer, "It's nighttime in the community. Time to eliminate a civilian!");
         write(client_socket, buffer, sizeof(buffer));
