@@ -55,7 +55,7 @@ Now that the game is setup, lets play!
     - Objective: Kill all of the town members
     - Can use their kill ability only at night against any other player
     - Mafia members should be careful to not take action that would possibly hint at their role during the day
-  - The game design is essentially pass 'n play, meaning users will have to hand the computer to each other to take action such as voting
+  - The game design is essentially pass 'n play (turn based), meaning users will have to hand the computer to each other to take action such as voting
   - Users should close their eyes at night to prevent them from seeing who the mafia member is
   - A common practice is to have one non-player person act as the "moderator", who makes sure people aren't peeking at night and in general, makes the game runs smoothly
     
