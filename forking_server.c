@@ -22,10 +22,10 @@ void subserver(int client_socket) {
 
   //incrementing shmem
   /* int key = 99;
-  int shmid = shmget(key, sizeof(int), NULL);
-  int *num =(int *) shmat(shmid, NULL, 0);
-  *num = (*num) + 1;
-  shmdt(num);
+     int shmid = shmget(key, sizeof(int), NULL);
+     int *num =(int *) shmat(shmid, NULL, 0);
+     *num = (*num) + 1;
+     shmdt(num);
   */
 
   //int LIMIT = 10;
@@ -37,11 +37,16 @@ void subserver(int client_socket) {
   int num_players = 0; //total number of players
   int recently_killed = 0; //stores the most recent death
   char buffer[BUFFER_SIZE];
-
+  
   //Reads the number of players
   read(client_socket, buffer, sizeof(buffer));
   num_players = atoi(buffer);
+  int lifestatus[num_players];
 
+  for(int i =0; i < num_players;i++){
+    lifestatus[i] = 0;
+  }
+  
   //Assigning roles
   strcpy(buffer, "The Server is now assigning roles...\n");
   write(client_socket, buffer, sizeof(buffer));
@@ -74,35 +79,55 @@ void subserver(int client_socket) {
 
 
     if (!day_night) {
+      if(curr_player == num_players - 1){
+	day_night++;
+      }
 
       if (curr_player == mafia){
         strcpy(buffer, "It's nighttime in the community. Time to eliminate a civilian!\n");
         write(client_socket, buffer, sizeof(buffer));
         read(client_socket, buffer, sizeof(buffer));
         recently_killed = atoi(buffer);
+	lifestatus[recently_killed] = 1;
         civil_left--;
       }
       else {
         strcpy(buffer, "It's nighttime in the community and you are currently sleeping.\n");
         write(client_socket, buffer, sizeof(buffer));
       }
-}
+    }
 
     else if (day_night) {
       curr_day++;
-      sprintf(buffer, "Good morning! It's day number %d in our beautiful community. Unfortunately Player_%d has been killed by the mafia.\n", curr_day, recently_killed);
-      write(client_socket, buffer, sizeof(buffer));
-      read(client_socket, buffer, sizeof(buffer));
-      if (atoi(buffer) == mafia) {
-        mafia_left--;
-        strcpy(buffer, "THE MAFIA HAS BEEN EXECUTED!\n");
-        write(client_socket, buffer, sizeof(buffer));
+
+      if(curr_player == num_players - 1){
+	day_night--;
       }
-      else {
-        civil_left--;
-        strcpy(buffer, "AN INNOCENT CIVILIAN HAS BEEN EXECUTED!\n");
-        write(client_socket, buffer, sizeof(buffer));
+      
+      if(lifestatus[curr_player]){
+	strcpy(buffer, "Waking up in the middle of the night, you see a face. Swiftly darkness wrapped around you as you wish to see your mother one last time. YOU DIED! Or maybe that was your last memory from a previous turn so stop hogging the keyboard and let the next player go\n");
+	write(client_socket, buffer, sizeof(buffer));
+	//remember to write a read here
+      }else{
+	sprintf(buffer, "Good morning! It's day number %d in our beautiful community. Unfortunately Player_%d has been killed by the mafia.\n", curr_day, recently_killed);
+	write(client_socket, buffer, sizeof(buffer));
+	read(client_socket, buffer, sizeof(buffer));
+	if (atoi(buffer) == mafia) {
+	  mafia_left--;
+	  lifestatus[atoi(buffer)] = 1;
+	  strcpy(buffer, "THE MAFIA HAS BEEN EXECUTED!\n");
+	  write(client_socket, buffer, sizeof(buffer));
+	}
+	else {
+	  lifestatus[atoi(buffer)] = 1;
+	  civil_left--;
+	  strcpy(buffer, "AN INNOCENT CIVILIAN HAS BEEN EXECUTED!\n");
+	  write(client_socket, buffer, sizeof(buffer));
+	}
       }
+
+
+      
     }
   }
 
@@ -117,10 +142,10 @@ void subserver(int client_socket) {
 
   /*  while (read(client_socket, buffer, sizeof(buffer))) {
 
-    printf("[subserver %d] received: [%s]\n", getpid(), buffer);
-    process(buffer);
-    write(client_socket, buffer, sizeof(buffer));
-    }//end read loop */
+      printf("[subserver %d] received: [%s]\n", getpid(), buffer);
+      process(buffer);
+      write(client_socket, buffer, sizeof(buffer));
+      }//end read loop */
   close(client_socket);
   exit(0);
 }

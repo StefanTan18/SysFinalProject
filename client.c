@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
               read(server_socket, buffer, sizeof(buffer));
               printf("%s\n", buffer);
               if (!strcmp(buffer, "THE MAFIA HAS BEEN EXECUTED!\n")) {
-                break;
+                exit(0);
               }
             }
           }
