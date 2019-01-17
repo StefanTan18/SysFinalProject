@@ -65,9 +65,19 @@ int main(int argc, char **argv) {
     int i = 0;
     while(i < num_players) {
       printf("Welcome Player_%d!\n", i);
-      printf("To confirm that you are Player_%d, please enter 'y': \n", i);
+      printf("To confirm that you are Player_%d, please enter 'y':\n", i);
       fgets(buffer,sizeof(buffer), stdin);
       if (!strcmp(buffer, "y\n")) {
+        /*for(int j = 0; j < num_players; j++){
+          if(notalive[j] == i) {
+            printf("RIP. You are dead.\n");
+            i++;
+          }
+        }
+        if (i == num_players) {
+          i = 0;
+          return;
+        }*/
         sprintf(buffer, "%d\n", i);
         *strchr(buffer, '\n') = 0;
         write(server_socket, buffer, sizeof(buffer));
@@ -85,7 +95,7 @@ int main(int argc, char **argv) {
             break;
           }
         }
-        else if (!strcmp(buffer, "It's nighttime in the community and you are currently sleeping.\n")) {
+        else if (!strncmp(buffer, "G",1)) {
           printf("Let the vote commence! Who do you believe is the mafia member? (0-%d)\n", num_players - 1);
           fgets(buffer, sizeof(buffer), stdin);
           your_choice = atoi(buffer);

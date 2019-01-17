@@ -52,13 +52,15 @@ void subserver(int client_socket) {
   civil_left = num_players - mafia_left;
 
   int i = 0;
-  while(read(client_socket, buffer, sizeof(buffer)) && i < num_players) {
+  while(i < num_players) {
     if (i == mafia) {
+      read(client_socket, buffer, sizeof(buffer));
       strcpy(buffer, "You are a member of the mafia.\nGoal: Eliminate everyone else before they find out!\n");
       write(client_socket, buffer, sizeof(buffer));
       i++;
     }
     else {
+      read(client_socket, buffer, sizeof(buffer));
       strcpy(buffer, "You are a civilian.\nGoal: Work together with other civilians to get rid of the 1 mafia member hiding within your community!\n");
       write(client_socket, buffer, sizeof(buffer));
       i++;
@@ -69,6 +71,8 @@ void subserver(int client_socket) {
   while (mafia_left && civil_left > 1) {
     read(client_socket, buffer, sizeof(buffer));
     curr_player = atoi(buffer);
+
+
     if (!day_night) {
 
       if (curr_player == mafia){
@@ -82,12 +86,11 @@ void subserver(int client_socket) {
         strcpy(buffer, "It's nighttime in the community and you are currently sleeping.\n");
         write(client_socket, buffer, sizeof(buffer));
       }
-      day_night++;
+}
 
-    }
     else if (day_night) {
       curr_day++;
-      sprintf(buffer, "It's day number %d in our beautiful community. Unfortunately Player_%d has been killed by the mafia.\n", curr_day, recently_killed);
+      sprintf(buffer, "Good morning! It's day number %d in our beautiful community. Unfortunately Player_%d has been killed by the mafia.\n", curr_day, recently_killed);
       write(client_socket, buffer, sizeof(buffer));
       read(client_socket, buffer, sizeof(buffer));
       if (atoi(buffer) == mafia) {
