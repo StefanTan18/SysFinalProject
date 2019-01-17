@@ -29,28 +29,28 @@ and your decisions will mark your fate.
 * <errno.h>
 
 ## Instructions:
-Setup:
+- Setup:
   1. Clone the repository onto your machine
   2. Navigate to the repo in the terminal, and type "make"
   3. The host user needs to run ./forking_server in that terminal
-  4. Open a new terminal process, on the same machine, and run ./client
+  4. Open a new terminal process, on the same machine, navigate to the repo, and run ./client
   5. As prompted, enter the number of players that are going to be participating
   
 Now that the game is setup, lets play!
 
-Game Assumptions:
+- Game Assumptions:
   1. All users who are playing are in the same room, and can talk amongst each other
   2. The host is using either a Windows, Linux, or Mac operating system
   
-Game Overview:
+- Game Overview:
   - Each player will be randomly assigned a role that they should not share with other users.  
   - The two roles are civilian and mafia.
-  Civilian:
+  - Civilian:
     - Objective: Kill the mafia members by voting their death through day town votes
     - Civilians should be questioning other town members during the day to try and figure out who the mafia member is
       - Be careful, you might accidentally vote to hand another civilian!
     - Can be killed at night
-  Mafia:
+  - Mafia:
     - Objective: Kill all of the town members
     - Can use their kill ability only at night against any other player
     - Mafia members should be careful to not take action that would possibly hint at their role during the day
@@ -58,9 +58,9 @@ Game Overview:
   - Users should close their eyes at night to prevent them from seeing who the mafia member is
   - A common practice is to have one non-player person act as the "moderator", who makes sure people aren't peeking at night and in general, makes the game runs smoothly
     
-Victory Conditions:
-  Mafia Victory: All other town members have been killed
-  Civilian Victory: All mafia members have been killed
+- Victory Conditions:
+  - Mafia Victory: All other town members have been killed
+  - Civilian Victory: All mafia members have been killed
   
-Similar Games: (for the mafia diehards who want something else to do)
-- "Town of Salem"
+- Similar Games: (for the mafia diehards who want something else to do)
+  - "Town of Salem"
