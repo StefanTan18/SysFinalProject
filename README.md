@@ -1,5 +1,4 @@
-# SysFinalProject
-Rise of the Mafia
+# SysFinalProject: Rise of the Mafia
 
 Team Members:
 Stefan Tan, Reed Scheinberg, Dahong Jiang
