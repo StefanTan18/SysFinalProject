@@ -49,6 +49,7 @@ Now that the game is setup, lets play!
     - Objective: Kill the mafia members by voting their death through day town votes
     - Civilians should be questioning other town members during the day to try and figure out who the mafia member is
       - Be careful, you might accidentally vote to hand another civilian!
+      - Majority vote is required to kill another player
     - Can be killed at night
   - Mafia:
     - Objective: Kill all of the town members
