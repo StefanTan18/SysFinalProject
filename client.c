@@ -68,16 +68,6 @@ int main(int argc, char **argv) {
       printf("To confirm that you are Player_%d, please enter 'y':\n", i);
       fgets(buffer,sizeof(buffer), stdin);
       if (!strcmp(buffer, "y\n")) {
-        /*for(int j = 0; j < num_players; j++){
-          if(notalive[j] == i) {
-            printf("RIP. You are dead.\n");
-            i++;
-          }
-        }
-        if (i == num_players) {
-          i = 0;
-          return;
-        }*/
         sprintf(buffer, "%d\n", i);
         *strchr(buffer, '\n') = 0;
         write(server_socket, buffer, sizeof(buffer));
@@ -108,8 +98,8 @@ int main(int argc, char **argv) {
               printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
               printf("All players can see this!\n");
               printf("The vote has concluded.\n");
-              printf("The majority has decided that Player_%d should be executed.\n", getMajority(votes,num_players));
-              printf("Player_%d has been executed.\n", getMajority(votes,num_players));
+              printf("The majority has decided that Player_%d should be executed.\n", getMajority(votes,num_players));// this should happen after looping all players
+              printf("Player_%d has been executed.\n", getMajority(votes,num_players));//segfault here
               sprintf(buffer, "%d", getMajority(votes,num_players));
               *strchr(buffer, '\n') = 0;
               write(server_socket, buffer, sizeof(buffer));

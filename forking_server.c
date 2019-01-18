@@ -37,7 +37,7 @@ void subserver(int client_socket) {
   int num_players = 0; //total number of players
   int recently_killed = 0; //stores the most recent death
   char buffer[BUFFER_SIZE];
-  
+
   //Reads the number of players
   read(client_socket, buffer, sizeof(buffer));
   num_players = atoi(buffer);
@@ -46,7 +46,7 @@ void subserver(int client_socket) {
   for(int i =0; i < num_players;i++){
     lifestatus[i] = 0;
   }
-  
+
   //Assigning roles
   strcpy(buffer, "The Server is now assigning roles...\n");
   write(client_socket, buffer, sizeof(buffer));
@@ -103,11 +103,10 @@ void subserver(int client_socket) {
       if(curr_player == num_players - 1){
 	day_night--;
       }
-      
+
       if(lifestatus[curr_player]){
-	strcpy(buffer, "Waking up in the middle of the night, you see a face. Swiftly darkness wrapped around you as you wish to see your mother one last time. YOU DIED! Or maybe that was your last memory from a previous turn so stop hogging the keyboard and let the next player go\n");
+	strcpy(buffer, "Waking up in the middle of the night, you see a face. Swiftly darkness wrapped around you as you wish to see your mother one last time. YOU DIED! Or maybe that was a memory from a previous turn so stop hogging the keyboard\n");
 	write(client_socket, buffer, sizeof(buffer));
-	//remember to write a read here
       }else{
 	sprintf(buffer, "Good morning! It's day number %d in our beautiful community. Unfortunately Player_%d has been killed by the mafia.\n", curr_day, recently_killed);
 	write(client_socket, buffer, sizeof(buffer));
@@ -127,7 +126,7 @@ void subserver(int client_socket) {
       }
 
 
-      
+
     }
   }
 
