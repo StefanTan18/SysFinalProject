@@ -67,12 +67,15 @@ int main(int argc, char **argv) {
       printf("Welcome Player_%d!\n", i);
       printf("To confirm that you are Player_%d, please enter 'y':\n", i);
       fgets(buffer,sizeof(buffer), stdin);
+      
       if (!strcmp(buffer, "y\n")) {
         sprintf(buffer, "%d\n", i);
         *strchr(buffer, '\n') = 0;
         write(server_socket, buffer, sizeof(buffer));
         read(server_socket, buffer, sizeof(buffer));
         printf("%s\n", buffer);
+	printf("%d",strncmp(buffer, "G", 1));
+	
         if (!strcmp(buffer, "It's nighttime in the community. Time to eliminate a civilian!\n")) {
           printf("Select your target (0-%d)\n: ", num_players - 1);
           fgets(buffer, sizeof(buffer), stdin);
@@ -85,16 +88,21 @@ int main(int argc, char **argv) {
             break;
           }
         }
+
         else if (!strncmp(buffer, "G",1)) {
           printf("Let the vote commence! Who do you believe is the mafia member? (0-%d)\n", num_players - 1);
           fgets(buffer, sizeof(buffer), stdin);
           your_choice = atoi(buffer);
           votes[your_choice] += 1;
 
+	  /*
           if (i == num_players - 1) {
+	    printf("nump %d", num_players);
+	    printf("i %d", i);
+	    
             printf("Enter 'y' if done: \n");
             fgets(buffer, sizeof(buffer), stdin);
-            if (!strcmp(buffer, "y\n")) {
+	    if (!strcmp(buffer, "y\n")) {
               printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
               printf("All players can see this!\n");
               printf("The vote has concluded.\n");
@@ -111,6 +119,8 @@ int main(int argc, char **argv) {
             }
           }
         }
+	
+	    */
         printf("Enter 'y' if done: \n");
         fgets(buffer, sizeof(buffer), stdin);
         if (!strcmp(buffer, "y\n")) {
@@ -130,13 +140,3 @@ int main(int argc, char **argv) {
   printf("%s\n", buffer);
   printf("\nTHANKS FOR PLAYING!\n");
 }
-
-/*
-  while (1) {
-  printf("enter data: ");
-  fgets(buffer, sizeof(buffer), stdin);
-  *strchr(buffer, '\n') = 0;
-  write(server_socket, buffer, sizeof(buffer));
-  read(server_socket, buffer, sizeof(buffer));
-  printf("received: [%s]\n", buffer);
-  }*/

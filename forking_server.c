@@ -19,16 +19,6 @@ int main() {
 }
 
 void subserver(int client_socket) {
-
-  //incrementing shmem
-  /* int key = 99;
-     int shmid = shmget(key, sizeof(int), NULL);
-     int *num =(int *) shmat(shmid, NULL, 0);
-     *num = (*num) + 1;
-     shmdt(num);
-  */
-
-  //int LIMIT = 10;
   int civil_left = 0;
   int mafia_left = 0;
   int curr_player = 0;
@@ -107,22 +97,28 @@ void subserver(int client_socket) {
       if(lifestatus[curr_player]){
 	strcpy(buffer, "Waking up in the middle of the night, you see a face. Swiftly darkness wrapped around you as you wish to see your mother one last time. YOU DIED! Or maybe that was a memory from a previous turn so stop hogging the keyboard\n");
 	write(client_socket, buffer, sizeof(buffer));
-      }else{
+      }else if(curr_player != num_players -1){
 	sprintf(buffer, "Good morning! It's day number %d in our beautiful community. Unfortunately Player_%d has been killed by the mafia.\n", curr_day, recently_killed);
 	write(client_socket, buffer, sizeof(buffer));
 	read(client_socket, buffer, sizeof(buffer));
-	if (atoi(buffer) == mafia) {
-	  mafia_left--;
-	  lifestatus[atoi(buffer)] = 1;
-	  strcpy(buffer, "THE MAFIA HAS BEEN EXECUTED!\n");
+      }
+
+      else{
 	  write(client_socket, buffer, sizeof(buffer));
-	}
-	else {
-	  lifestatus[atoi(buffer)] = 1;
-	  civil_left--;
-	  strcpy(buffer, "AN INNOCENT CIVILIAN HAS BEEN EXECUTED!\n");
-	  write(client_socket, buffer, sizeof(buffer));
-	}
+	  read(client_socket, buffer, sizeof(buffer));
+	  if (atoi(buffer) == mafia) {
+	    mafia_left--;
+	    lifestatus[atoi(buffer)] = 1;
+	    strcpy(buffer, "THE MAFIA HAS BEEN EXECUTED!\n");
+	    write(client_socket, buffer, sizeof(buffer));
+	  }
+	  else {
+	    lifestatus[atoi(buffer)] = 1;
+	    civil_left--;
+	    strcpy(buffer, "AN INNOCENT CIVILIAN HAS BEEN EXECUTED!\n");
+	    write(client_socket, buffer, sizeof(buffer));
+	  }
+	  //	}
       }
 
 
@@ -138,13 +134,6 @@ void subserver(int client_socket) {
     strcpy(buffer, "One civilian left alone against one mafia member. That is not going to end up well. WELL DONE TO THE MAFIA!\n");
     write(client_socket, buffer, sizeof(buffer));
   }
-
-  /*  while (read(client_socket, buffer, sizeof(buffer))) {
-
-      printf("[subserver %d] received: [%s]\n", getpid(), buffer);
-      process(buffer);
-      write(client_socket, buffer, sizeof(buffer));
-      }//end read loop */
   close(client_socket);
   exit(0);
 }
