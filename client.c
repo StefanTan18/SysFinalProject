@@ -146,7 +146,7 @@ int main(int argc, char **argv) {
       printf("Select your target (0-%d)\n: ", num_players - 1);
       fgets(buffer, sizeof(buffer), stdin);
       recently_killed = atoi(buffer);
-      while(buffer[0] >= 'A' || recently_killed >= num_players || recently_killed < 0 || valid_kill(notalive, numDead, recently_killed)) {//valid_kill returns 0 if vote is valid
+      while(buffer[0] >= 'A' || recently_killed >= num_players || recently_killed < 0 || valid_kill(notalive, numDead, recently_killed) || recently_killed == i) {//valid_kill returns 0 if vote is valid
         printf("Invalid Input. Please select a valid player:\n");
         fgets(buffer, sizeof(buffer), stdin);
         recently_killed = atoi(buffer);
