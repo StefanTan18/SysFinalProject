@@ -34,7 +34,7 @@ and your decisions will mark your fate.
 ## Instructions:
 - Setup:
   1. Clone the repository onto your machine
-  2. Navigate to the repo in the terminal, and type "make forking_server"
+  2. Navigate to the repo in the terminal, and type "make forking"
   3. The host user needs to run ./server in that terminal
   4. Open a new terminal process, on the same machine, navigate to the repo, and run ./client
   5. As prompted, enter the number of players that are going to be participating
