@@ -131,10 +131,10 @@ int main(int argc, char **argv) {
       printf("Select your target (0-%d)\n: ", num_players - 1);
       fgets(buffer, sizeof(buffer), stdin);
       recently_killed = atoi(buffer);
-      while(buffer[0] >= 'A' || recently_killed >= num_players || recently_killed < 0) {
-        printf("Invalid Input. Please select a valid player:\n");
-        recently_killed = atoi(buffer);
-      }
+      //while(buffer[0] >= 'A' || recently_killed >= num_players || recently_killed < 0) {
+        //printf("Invalid Input. Please select a valid player:\n");
+        //recently_killed = atoi(buffer);
+      //}
 
       notalive[numDead] = recently_killed;
       numDead++;
@@ -152,8 +152,6 @@ int main(int argc, char **argv) {
 
 
         if (i == num_players - 1) {
-	      printf("nump %d", num_players);
-	      printf("i %d", i);
           printf("Enter 'y' if done: \n");
           fgets(buffer, sizeof(buffer), stdin);
           buffer[0] = tolower(buffer[0]);
@@ -176,8 +174,6 @@ int main(int argc, char **argv) {
               }
       }
       else{
-        printf("nump %d", num_players);
-        printf("i %d", i);
         printf("Enter 'y' if done: \n");
         fgets(buffer, sizeof(buffer), stdin);
         buffer[0] = tolower(buffer[0]);
@@ -186,7 +182,7 @@ int main(int argc, char **argv) {
           fgets(buffer, sizeof(buffer), stdin);
           buffer[0] = tolower(buffer[0]);
         }
-
+        write(server_socket, buffer, sizeof(buffer));
 
       }
 }
