@@ -126,6 +126,7 @@ void subserver(int client_socket) {
 
     //Voting functionality for the day
     else{
+      sprintf(buffer, "Good morning! It's day number %d in our beautiful community. Unfortunately Player_%d has been killed by the mafia.\n", curr_day, recently_killed);
 	    write(client_socket, buffer, sizeof(buffer));
 	    read(client_socket, buffer, sizeof(buffer));
 

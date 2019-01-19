@@ -152,7 +152,7 @@ int main(int argc, char **argv) {
 
 
         if (i == num_players - 1) {
-          printf("Enter 'y' if done: \n");
+          printf("Are you sure? Enter 'y' to confirm: \n");
           fgets(buffer, sizeof(buffer), stdin);
           buffer[0] = tolower(buffer[0]);
           while(strcmp(buffer, "y\n")) {
@@ -174,7 +174,7 @@ int main(int argc, char **argv) {
               }
       }
       else{
-        printf("Enter 'y' if done: \n");
+        printf("Are you sure? Enter 'y' to confirm: \n");
         fgets(buffer, sizeof(buffer), stdin);
         buffer[0] = tolower(buffer[0]);
         while(strcmp(buffer, "y\n")) {
