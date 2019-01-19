@@ -34,17 +34,17 @@ and your decisions will mark your fate.
 ## Instructions:
 - Setup:
   1. Clone the repository onto your machine
-  2. Navigate to the repo in the terminal, and type "make"
-  3. The host user needs to run ./forking_server in that terminal
+  2. Navigate to the repo in the terminal, and type "make forking_server"
+  3. The host user needs to run ./server in that terminal
   4. Open a new terminal process, on the same machine, navigate to the repo, and run ./client
   5. As prompted, enter the number of players that are going to be participating
-  
+
 Now that the game is setup, lets play!
 
 - Game Assumptions:
   1. All users who are playing are in the same room, and can talk amongst each other
   2. The host is using either a Windows, Linux, or Mac operating system
-  
+
 - Game Overview:
   - Each player will be randomly assigned a role that they should not share with other users.  
   - The two roles are civilian and mafia.
@@ -61,10 +61,10 @@ Now that the game is setup, lets play!
   - The game design is essentially pass 'n play (turn based), meaning users will have to hand the computer to each other to take action such as voting
   - Users should close their eyes at night to prevent them from seeing who the mafia member is
   - A common practice is to have one non-player person act as the "moderator", who makes sure people aren't peeking at night and in general, makes the game runs smoothly
-    
+
 - Victory Conditions:
   - Mafia Victory: All other town members have been killed
   - Civilian Victory: All mafia members have been killed
-  
+
 - Similar Games: (for the mafia diehards who want something else to do)
   - "Town of Salem"
