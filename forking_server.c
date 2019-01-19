@@ -2,21 +2,27 @@
 
 void subserver(int from_client);
 
+//global socket variables
+int listen_sock;
+int client_sock;
+
 //Controls functionality server-side
 int main() {
 
-  //Setting up socket variables
-  int listen_socket;
+  //sighandler
+  //signal(SIGINT, sighandler);
+
+  //Setting up  variables
   int f;
-  listen_socket = server_setup();
+  listen_sock = server_setup();
 
   //Connecting users to server
   while (1) {
 
-    int client_socket = server_connect(listen_socket);
+    client_sock = server_connect(listen_sock);
     f = fork();
-    if (f == 0) subserver(client_socket);
-    else close(client_socket);
+    if (f == 0) subserver(client_sock);
+    else close(client_sock);
   }
 }
 
@@ -37,11 +43,10 @@ void subserver(int client_socket) {
   read(client_socket, buffer, sizeof(buffer));
   num_players = atoi(buffer);
 
-  //Setting all players' status to alive
   int lifestatus[num_players];
   for(int i =0; i < num_players;i++){
     lifestatus[i] = 0;
-  }
+  }//Setting all players' status to alive
 
   //Assigning roles
   strcpy(buffer, "The Server is now assigning roles...\n");
@@ -57,12 +62,16 @@ void subserver(int client_socket) {
   //Telling the users their role
   int i = 0;
   while(i < num_players) {
+
+    //informing mafia members
     if (i == mafia) {
       read(client_socket, buffer, sizeof(buffer));
       strcpy(buffer, "You are a member of the mafia.\nGoal: Eliminate everyone else before they find out!\n");
       write(client_socket, buffer, sizeof(buffer));
       i++;
     }
+
+    //informing civilians
     else {
       read(client_socket, buffer, sizeof(buffer));
       strcpy(buffer, "You are a civilian.\nGoal: Work together with other civilians to get rid of the 1 mafia member hiding within your community!\n");
@@ -102,24 +111,22 @@ void subserver(int client_socket) {
       }
     }
 
-    //Increments the day number counter
-    else if (day_night) curr_day++;
+    else if (day_night){
+      //Changes the day night counter back to night
+      if(curr_player == num_players - 1) day_night--;
 
-    //Changes the day night counter back to night
-    if(curr_player == num_players - 1) day_night--;
+      //Informing chosen player of their death
+      if(lifestatus[curr_player]){
+	       strcpy(buffer, "Waking up in the middle of the night, you see a face. Swiftly darkness wrapped around you as you wish to see your mother one last time. YOU DIED! Or maybe that was a memory from a previous turn so stop hogging the keyboard\n");
+	        write(client_socket, buffer, sizeof(buffer));
+      }
 
-    //Informing chosen player of their death
-    if(lifestatus[curr_player]){
-	    strcpy(buffer, "Waking up in the middle of the night, you see a face. Swiftly darkness wrapped around you as you wish to see your mother one last time. YOU DIED! Or maybe that was a memory from a previous turn so stop hogging the keyboard\n");
-	    write(client_socket, buffer, sizeof(buffer));
-    }
-
-    //Informing players of who was chosen to die
-    else if(curr_player != num_players -1){
-	    sprintf(buffer, "Good morning! It's day number %d in our beautiful community. Unfortunately Player_%d has been killed by the mafia.\n", curr_day, recently_killed);
-	    write(client_socket, buffer, sizeof(buffer));
-	    read(client_socket, buffer, sizeof(buffer));
-    }
+      //Informing players of who was chosen to die
+      else if(curr_player != num_players -1){
+	       sprintf(buffer, "Good morning! It's day number %d in our beautiful community. Unfortunately Player_%d has been killed by the mafia.\n", curr_day, recently_killed);
+	       write(client_socket, buffer, sizeof(buffer));
+	       read(client_socket, buffer, sizeof(buffer));
+      }
 
     //Voting functionality for the day
     else{
@@ -142,11 +149,9 @@ void subserver(int client_socket) {
 	      write(client_socket, buffer, sizeof(buffer));
 	    }
     }
-
-
-
-    }
   }
+}
+
 
   //Victory conditions
   //Checking for civilian victory
@@ -171,3 +176,13 @@ void subserver(int client_socket) {
   close(client_socket);
   exit(0);
 }
+
+/*void sighandler() {
+
+  //close sockets
+  close(client_sock);
+  close(server_sock);
+
+  exit(0);
+}
+*/

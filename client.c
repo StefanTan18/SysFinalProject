@@ -1,5 +1,8 @@
 #include "networking.h"
 
+//socket variables
+int server_socket;
+
 //Determines which player was chosen in the vote
 int getMajority(int vote[], int size) {
   int current = 0;
@@ -13,8 +16,10 @@ int getMajority(int vote[], int size) {
 
 int main(int argc, char **argv) {
 
+  //sighandler
+  //signal(SIGINT, sighandler);
+
   //Initializing variables
-  int server_socket;
   char buffer[BUFFER_SIZE];
   int num_players;
 
@@ -186,6 +191,8 @@ int main(int argc, char **argv) {
       fgets(buffer, sizeof(buffer), stdin);
       buffer[0] = tolower(buffer[0]);
     }
+
+    write(server_socket, buffer, sizeof(buffer));
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     printf("Switch to the next player.\n");
     i++;
@@ -200,3 +207,12 @@ int main(int argc, char **argv) {
   printf("%s\n", buffer);
   printf("\nTHANKS FOR PLAYING!\n");
 }
+
+/*void sighandler() {
+
+  //close sockets
+  close(server_socket);
+
+  exit(0);
+}
+*/
