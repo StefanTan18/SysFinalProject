@@ -118,7 +118,7 @@ void subserver(int client_socket) {
       }
 
       //Informing players of who was chosen to die
-      else if(curr_player != num_players -1){
+      else if(curr_player != (num_players -1)){
 	       sprintf(buffer, "Good morning! It's day number %d in our beautiful community. Unfortunately Player_%d has been killed by the mafia.\n", curr_day, recently_killed);
 	       write(client_socket, buffer, sizeof(buffer));
 	       read(client_socket, buffer, sizeof(buffer));

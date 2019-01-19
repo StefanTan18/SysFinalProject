@@ -125,7 +125,7 @@ int main(int argc, char **argv) {
     write(server_socket, buffer, sizeof(buffer));
     read(server_socket, buffer, sizeof(buffer));
     printf("%s\n", buffer);
-    printf("%d\n",strncmp(buffer, "G", 1));
+    //printf("%d\n",strncmp(buffer, "G", 1));
 
     if (!strcmp(buffer, "It's nighttime in the community. Time to eliminate a civilian!\n")) {
       printf("Select your target (0-%d)\n: ", num_players - 1);
@@ -191,9 +191,6 @@ int main(int argc, char **argv) {
       }
 }
 
-
-
-
     printf("Enter 'y' if done: \n");
     fgets(buffer, sizeof(buffer), stdin);
     buffer[0] = tolower(buffer[0]);
@@ -202,9 +199,6 @@ int main(int argc, char **argv) {
       fgets(buffer, sizeof(buffer), stdin);
       buffer[0] = tolower(buffer[0]);
     }
-
-  //  write(server_socket, buffer, sizeof(buffer));
-
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     printf("Switch to the next player.\n");
     i++;
