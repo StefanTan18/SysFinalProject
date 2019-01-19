@@ -52,6 +52,10 @@ int main(int argc, char **argv) {
   int votes[num_players]; //store the votes
   int your_choice = 0; //placed into vote
 
+  //Initializing votes array
+  for (int i = 0; i < num_players; i++) {
+    votes[i] = 0;
+  }
 
   //Receiving roles
   read(server_socket, buffer, sizeof(buffer));
@@ -148,7 +152,7 @@ int main(int argc, char **argv) {
       printf("Let the vote commence! Who do you believe is the mafia member? (0-%d)\n", num_players - 1);
       fgets(buffer, sizeof(buffer), stdin);
       your_choice = atoi(buffer);
-      votes[your_choice] += 1;
+      votes[your_choice]++;
 
 
         if (i == num_players - 1) {
@@ -156,21 +160,23 @@ int main(int argc, char **argv) {
           fgets(buffer, sizeof(buffer), stdin);
           buffer[0] = tolower(buffer[0]);
           while(strcmp(buffer, "y\n")) {
-            printf("Waiting for player to indicate they are finished with 'y': ");fgets(buffer, sizeof(buffer), stdin);
+            printf("Waiting for player to indicate they are finished with 'y': ");
+            fgets(buffer, sizeof(buffer), stdin);
             buffer[0] = tolower(buffer[0]);
           }
               printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
               printf("All players can see this!\n");
               printf("The vote has concluded.\n");
-              printf("The majority has decided that Player_%d should be executed.\n", getMajority(votes,num_players));// this should happen after looping all players
-              printf("Player_%d has been executed.\n", getMajority(votes,num_players));//segfault here
-              sprintf(buffer, "%d", getMajority(votes,num_players));
+              int maj = getMajority(votes,num_players);
+              printf("The majority has decided that Player_%d should be executed.\n", maj);// this should happen after looping all players
+              printf("Player_%d has been executed.\n", maj);//segfault here
+              sprintf(buffer, "%d\n",maj);
               *strchr(buffer, '\n') = 0;
               write(server_socket, buffer, sizeof(buffer));
               read(server_socket, buffer, sizeof(buffer));
               printf("%s\n", buffer);
               if (!strcmp(buffer, "THE MAFIA HAS BEEN EXECUTED!\n")) {
-                exit(0);
+                break;
               }
       }
       else{
@@ -200,6 +206,9 @@ int main(int argc, char **argv) {
     i++;
     if (i == num_players) {
       i = 0;
+      for (int j = 0; j < num_players; j++) {
+        votes[j] = 0;
+      }
     }
   }
 
