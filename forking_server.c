@@ -103,7 +103,7 @@ void subserver(int client_socket) {
 
       //Functionality for civilians at night (they don't do anything)
       else {
-        strcpy(buffer, "It's nighttime in the community and you are currently sleeping.\n");
+        strcpy(buffer, "It's nighttime in the community and you are currently sleeping. Or dead. You will come to realize that they are almost the same.\n");
         write(client_socket, buffer, sizeof(buffer));
       }
     }

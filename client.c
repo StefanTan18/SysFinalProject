@@ -178,7 +178,7 @@ int main(int argc, char **argv) {
           fgets(buffer, sizeof(buffer), stdin);
           buffer[0] = tolower(buffer[0]);
           while(strcmp(buffer, "y\n")) {
-            printf("Waiting for player to indicate they are finished with 'y': ");
+            printf("Waiting for player to indicate they are finished with 'y': \n");
             fgets(buffer, sizeof(buffer), stdin);
             buffer[0] = tolower(buffer[0]);
           }
@@ -202,7 +202,7 @@ int main(int argc, char **argv) {
         fgets(buffer, sizeof(buffer), stdin);
         buffer[0] = tolower(buffer[0]);
         while(strcmp(buffer, "y\n")) {
-          printf("Waiting for player to indicate they are finished with 'y': ");
+          printf("Waiting for player to indicate they are finished with 'y': \n");
           fgets(buffer, sizeof(buffer), stdin);
           buffer[0] = tolower(buffer[0]);
         }
@@ -230,8 +230,6 @@ int main(int argc, char **argv) {
     }
   }
 
-
-  printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
   write(server_socket,buffer,sizeof(buffer));
   read(server_socket, buffer, sizeof(buffer));
   printf("%s\n", buffer);
