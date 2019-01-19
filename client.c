@@ -1,5 +1,6 @@
 #include "networking.h"
 
+//Determines which player was chosen in the vote
 int getMajority(int vote[], int size) {
   int current = 0;
   for(int i = 0; i < size;i++){
@@ -12,31 +13,34 @@ int getMajority(int vote[], int size) {
 
 int main(int argc, char **argv) {
 
+  //Initializing variables
   int server_socket;
   char buffer[BUFFER_SIZE];
+  int num_players;
 
+  //Socket setup
   if (argc == 2)
     server_socket = client_setup( argv[1]);
   else
     server_socket = client_setup( TEST_IP );
 
-  //Setting up the Game
-  int num_players = 0;
-
+  //Prompting user to enter the number of players
   printf("Enter the number of players(6-10 players Only!): \n");
   fgets(buffer, sizeof(buffer), stdin);
   num_players = atoi(buffer);
-  
-  //Checks input number for correct value
+
+  //Checks input for correctness
   while(num_players < 6 || num_players > 10) {
     printf("Input invalid.  Please enter a correct value (6-10): ");
     fgets(buffer, sizeof(buffer), stdin);
     num_players = atoi(buffer);
-  }     
-  
+  }
+
+  //Writing num_players to socket
   *strchr(buffer, '\n') = 0;
   write(server_socket, buffer, sizeof(buffer));
 
+  //Initializing game variables
   int notalive[num_players];//if players are alive
   int numDead = 0; //number of dead players
   int recently_killed = 0; //stores the most recent death
@@ -48,40 +52,60 @@ int main(int argc, char **argv) {
   read(server_socket, buffer, sizeof(buffer));
   printf("%s\n", buffer);
 
+  //Communicating information to players
   for (int i = 0; i < num_players; i++) {
+
+    //Welcoming and confirming identities of players
     printf("Welcome Player_%d!\n", i);
     printf("To confirm that you are Player_%d, please enter 'y': \n", i);
     fgets(buffer, sizeof(buffer), stdin);
     buffer[0] = tolower(buffer[0]);
+
+    //Error checking the input
     while(strcmp(buffer, "y\n")) {
       printf("Waiting for player to confirm identity with 'y': ");
       fgets(buffer, sizeof(buffer), stdin);
       buffer[0] = tolower(buffer[0]);
     }
+
+    //Getting roles from server
     *strchr(buffer, '\n') = 0;
     write(server_socket, buffer, sizeof(buffer));
     read(server_socket, buffer, sizeof(buffer));
     //  players[i] =
+
     printf("\nCONFIDENTIAL INFO!\n\n %s\n\n", buffer);
     printf("Enter 'y' if understood: \n");
+
+    //Confirming confidentiality
     fgets(buffer, sizeof(buffer), stdin);
+
+    //Error checking input
     while(strcmp(buffer, "y\n")) {
       printf("Waiting for player to signal 'y': ");
       fgets(buffer, sizeof(buffer), stdin);
       buffer[0] = tolower(buffer[0]);
     }
+
+    //Making terminal look nice
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     printf("Switch to the next player.\n");
   }
 
+  //Starting the game
+  //Waiting for confirmation
   printf("Enter 'y' if you are ready to start mafia.\n ");
   fgets(buffer, sizeof(buffer), stdin);
   buffer[0] = tolower(buffer[0]);
+
+  //Error checking input
   while(strcmp(buffer, "y\n")) {
     printf("Waiting for player to signal 'y': ");
     fgets(buffer, sizeof(buffer), stdin);
     buffer[0] = tolower(buffer[0]);
   }
+
+
   int i = 0;
   while(i < num_players) {
     printf("Welcome Player_%d!\n", i);
@@ -98,7 +122,7 @@ int main(int argc, char **argv) {
     read(server_socket, buffer, sizeof(buffer));
     printf("%s\n", buffer);
     printf("%d",strncmp(buffer, "G", 1));
-	
+
     if (!strcmp(buffer, "It's nighttime in the community. Time to eliminate a civilian!\n")) {
       printf("Select your target (0-%d)\n: ", num_players - 1);
       fgets(buffer, sizeof(buffer), stdin);
@@ -107,8 +131,8 @@ int main(int argc, char **argv) {
         printf("Invalid Input. Please select a valid player: ");
         fgets(buffer, sizeof(buffer), stdin);
         recently_killed = atoi(buffer);
-      }     
-      
+      }
+
       notalive[numDead] = recently_killed;
       numDead++;
       *strchr(buffer, '\n') = 0;
@@ -151,7 +175,7 @@ int main(int argc, char **argv) {
             }
           }
         }
-	
+
 	    */
     }
     printf("Enter 'y' if done: \n");
