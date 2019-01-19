@@ -14,6 +14,17 @@ int getMajority(int vote[], int size) {
   return current;
 }
 
+//Determines if vote is valid
+int valid_kill(int notalive[], int numDead, int recently_killed) {
+
+    int yes = 0;
+    for(int i = 0; i < numDead; i++) {
+        if(recently_killed == notalive[i]) yes = 1;
+    }
+    return yes;
+
+}
+
 int main(int argc, char **argv) {
 
   //sighandler
@@ -135,10 +146,11 @@ int main(int argc, char **argv) {
       printf("Select your target (0-%d)\n: ", num_players - 1);
       fgets(buffer, sizeof(buffer), stdin);
       recently_killed = atoi(buffer);
-      //while(buffer[0] >= 'A' || recently_killed >= num_players || recently_killed < 0) {
-        //printf("Invalid Input. Please select a valid player:\n");
-        //recently_killed = atoi(buffer);
-      //}
+      while(buffer[0] >= 'A' || recently_killed >= num_players || recently_killed < 0 || valid_kill(notalive, numDead, recently_killed)) {//valid_kill returns 0 if vote is valid
+        printf("Invalid Input. Please select a valid player:\n");
+        fgets(buffer, sizeof(buffer), stdin);
+        recently_killed = atoi(buffer);
+      }
 
       notalive[numDead] = recently_killed;
       numDead++;
@@ -152,7 +164,16 @@ int main(int argc, char **argv) {
       printf("Let the vote commence! Who do you believe is the mafia member? (0-%d)\n", num_players - 1);
       fgets(buffer, sizeof(buffer), stdin);
       your_choice = atoi(buffer);
+<<<<<<< HEAD
       votes[your_choice]++;
+=======
+      while(buffer[0] >= 'A' || your_choice >= num_players || your_choice < 0 || valid_kill(notalive, numDead, your_choice)) {//valid_kill returns 0 if vote is valid
+        printf("Invalid Selection. Please choose a valid player to vote against:\n");
+        fgets(buffer, sizeof(buffer), stdin);
+        your_choice = atoi(buffer);
+      }
+      votes[your_choice] += 1;
+>>>>>>> 8604a666b685ca032d4c1b85dce6e937e92db059
 
 
         if (i == num_players - 1) {
