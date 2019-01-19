@@ -14,6 +14,17 @@ int getMajority(int vote[], int size) {
   return current;
 }
 
+//Determines if vote is valid
+int valid_kill(int notalive[], int numDead, int recently_killed) {
+    
+    int yes = 0;
+    for(int i = 0; i < numDead; i++) {
+        if(recently_killed == notalive[i]) yes = 1;
+    }
+    return yes;
+    
+}
+
 int main(int argc, char **argv) {
 
   //sighandler
@@ -131,10 +142,11 @@ int main(int argc, char **argv) {
       printf("Select your target (0-%d)\n: ", num_players - 1);
       fgets(buffer, sizeof(buffer), stdin);
       recently_killed = atoi(buffer);
-      //while(buffer[0] >= 'A' || recently_killed >= num_players || recently_killed < 0) {
-        //printf("Invalid Input. Please select a valid player:\n");
-        //recently_killed = atoi(buffer);
-      //}
+      while(buffer[0] >= 'A' || recently_killed >= num_players || recently_killed < 0 || valid_kill(notalive, numDead, recently_killed)) {//valid_kill returns 0 if vote is valid
+        printf("Invalid Input. Please select a valid player:\n");
+        fgets(buffer, sizeof(buffer), stdin);
+        recently_killed = atoi(buffer);
+      }
 
       notalive[numDead] = recently_killed;
       numDead++;
@@ -148,6 +160,11 @@ int main(int argc, char **argv) {
       printf("Let the vote commence! Who do you believe is the mafia member? (0-%d)\n", num_players - 1);
       fgets(buffer, sizeof(buffer), stdin);
       your_choice = atoi(buffer);
+      while(buffer[0] >= 'A' || your_choice >= num_players || your_choice < 0 || valid_kill(notalive, numDead, your_choice)) {//valid_kill returns 0 if vote is valid
+        printf("Invalid Selection. Please choose a valid player to vote against:\n");
+        fgets(buffer, sizeof(buffer), stdin);
+        your_choice = atoi(buffer);
+      }
       votes[your_choice] += 1;
 
 
@@ -156,14 +173,15 @@ int main(int argc, char **argv) {
           fgets(buffer, sizeof(buffer), stdin);
           buffer[0] = tolower(buffer[0]);
           while(strcmp(buffer, "y\n")) {
-            printf("Waiting for player to indicate they are finished with 'y': ");fgets(buffer, sizeof(buffer), stdin);
+            printf("Waiting for player to indicate they are finished with 'y': ");
+            fgets(buffer, sizeof(buffer), stdin);
             buffer[0] = tolower(buffer[0]);
           }
               printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
               printf("All players can see this!\n");
               printf("The vote has concluded.\n");
               printf("The majority has decided that Player_%d should be executed.\n", getMajority(votes,num_players));// this should happen after looping all players
-              printf("Player_%d has been executed.\n", getMajority(votes,num_players));//segfault here
+              printf("Player_%d has been executed.\n", getMajority(votes,num_players));
               sprintf(buffer, "%d", getMajority(votes,num_players));
               *strchr(buffer, '\n') = 0;
               write(server_socket, buffer, sizeof(buffer));
