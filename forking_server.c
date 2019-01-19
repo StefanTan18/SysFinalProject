@@ -62,15 +62,12 @@ void subserver(int client_socket) {
   //Telling the users their role
   int i = 0;
   while(i < num_players) {
-
-    //informing mafia members
     if (i == mafia) {
       read(client_socket, buffer, sizeof(buffer));
       strcpy(buffer, "You are a member of the mafia.\nGoal: Eliminate everyone else before they find out!\n");
       write(client_socket, buffer, sizeof(buffer));
       i++;
-    }
-
+    }    //informing mafia members
     //informing civilians
     else {
       read(client_socket, buffer, sizeof(buffer));
@@ -91,8 +88,7 @@ void subserver(int client_socket) {
     //Controls gameplay at night
     if (!day_night) {
 
-      //Uses current player to control day/night cycle
-      if(curr_player == num_players - 1) day_night++;
+      if(curr_player == num_players - 1) day_night++;//Uses current player to control day/night cycle
 
       //Functionality to allow the mafia to choose their target
       if (curr_player == mafia){
