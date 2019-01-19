@@ -14,16 +14,6 @@ int getMajority(int vote[], int size) {
   return current;
 }
 
-//Determines if int is present in array
-int isIntInArray(int a[], int size, int target) {
-  for(int i = 0; i < size; i++){
-    if(a[i] == target){
-      return 1;
-    }
-  }
-  return 0;
-}
-
 //Determines if vote is valid
 int valid_kill(int notalive[], int numDead, int recently_killed) {
 
@@ -171,7 +161,6 @@ int main(int argc, char **argv) {
       }
     }
     else if (!strncmp(buffer, "G",1)) {
-      if(!(isIntInArray(notalive, numDead, i))) {
       printf("Let the vote commence! Who do you believe is the mafia member? (0-%d)\n", num_players - 1);
       fgets(buffer, sizeof(buffer), stdin);
       your_choice = atoi(buffer);
@@ -182,7 +171,6 @@ int main(int argc, char **argv) {
         your_choice = atoi(buffer);
       }
       votes[your_choice] += 1;
-    }
 
         if (i == num_players - 1) {
           printf("Are you sure? Enter 'y' to confirm: \n");

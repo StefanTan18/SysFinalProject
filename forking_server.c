@@ -114,7 +114,7 @@ void subserver(int client_socket) {
 
       //Informing chosen player of their death
       if(lifestatus[curr_player]){
-	       strcpy(buffer, "Gah! Waking up in the middle of the night, you see a face. Swiftly darkness wrapped around you as you wish to see your mother one last time. YOU DIED! Or maybe that was a memory from a previous turn so stop hogging the keyboard\n");
+	       strcpy(buffer, "Waking up in the middle of the night, you see a face. Swiftly darkness wrapped around you as you wish to see your mother one last time. YOU DIED! Or maybe that was a memory from a previous turn so stop hogging the keyboard\n");
 	        write(client_socket, buffer, sizeof(buffer));
       }
 
