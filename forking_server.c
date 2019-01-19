@@ -53,6 +53,7 @@ void subserver(int client_socket) {
   write(client_socket, buffer, sizeof(buffer));
 
   //Randomly choosing the mafia member
+  srand(time(0));
   int mafia = rand() % num_players;
 
   //Setting the appropriate number of mafia and civilians left

@@ -16,16 +16,20 @@ see in the morning; another body or clear tranquility. You will play your part i
 and your decisions will mark your fate.
 
 ## Libraries:
-* <stdio.h>
-* <stdlib.h>
-* <unistd.h>
-* <sys/types.h>
-* <sys/socket.h>
-* <netinet/in.h>
-* <arpa/inet.h>
-* <netdb.h>
-* <string.h>
-* <errno.h>
+-<stdio.h>
+-<stdlib.h>
+-<unistd.h>
+-<sys/types.h>
+-<sys/socket.h>
+-<netinet/in.h>
+-<arpa/inet.h>
+-<netdb.h>
+-<string.h>
+-<errno.h>
+-<sys/shm.h>
+-<sys/ipc.h>
+-<ctype.h>
+-<time.h>
 
 ## Instructions:
 - Setup:

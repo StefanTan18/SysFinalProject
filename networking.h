@@ -11,6 +11,7 @@
 #include <sys/shm.h>
 #include <sys/ipc.h>
 #include <ctype.h>
+#include <time.h>
 
 #ifndef NETWORKING_H
 #define NETWORKING_H
